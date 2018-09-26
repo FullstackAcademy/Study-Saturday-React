@@ -2,11 +2,11 @@
 
 module.exports = {
   // Compile ./browser/index.js
-  entry: './browser/index.js',
+  entry: ['babel-polyfill', './browser/index.js'],
   output: {
     path: __dirname,
     //write the output to ./public/bundle.js
-    filename: './public/bundle.js'
+    filename: './public/bundle.js',
   },
   devtool: 'source-map',
   resolve: {
@@ -19,8 +19,8 @@ module.exports = {
         // Use babel for files that end in js or jsx.
         test: /jsx?$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader'
-      }
-    ]
-  }
-}
+        loader: 'babel-loader',
+      },
+    ],
+  },
+};
