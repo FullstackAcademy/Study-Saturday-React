@@ -31439,6 +31439,14 @@ var _axios = __webpack_require__(353);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _StudentList = __webpack_require__(373);
+
+var _StudentList2 = _interopRequireDefault(_StudentList);
+
+var _SingleStudent = __webpack_require__(372);
+
+var _SingleStudent2 = _interopRequireDefault(_SingleStudent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -31458,8 +31466,11 @@ var Main = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
     _this.state = {
-      students: []
+      students: [],
+      selectedStudent: {}
     };
+
+    _this.selectStudent = _this.selectStudent.bind(_this);
     return _this;
   }
 
@@ -31512,6 +31523,13 @@ var Main = function (_Component) {
       return getStudents;
     }()
   }, {
+    key: 'selectStudent',
+    value: function selectStudent(student) {
+      return this.setState({
+        selectedStudent: student
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -31526,7 +31544,7 @@ var Main = function (_Component) {
           'table',
           null,
           _react2.default.createElement(
-            'tbody',
+            'thead',
             null,
             _react2.default.createElement(
               'tr',
@@ -31535,21 +31553,20 @@ var Main = function (_Component) {
                 'th',
                 null,
                 'Name'
+              ),
+              _react2.default.createElement(
+                'th',
+                null,
+                'Tests'
               )
-            ),
-            this.state.students.map(function (student) {
-              return _react2.default.createElement(
-                'tr',
-                { key: student.id },
-                _react2.default.createElement(
-                  'td',
-                  null,
-                  student.fullName
-                )
-              );
-            })
-          )
-        )
+            )
+          ),
+          _react2.default.createElement(_StudentList2.default, {
+            students: this.state.students,
+            selectStudent: this.selectStudent
+          })
+        ),
+        this.state.selectedStudent.id ? _react2.default.createElement(_SingleStudent2.default, { student: this.state.selectedStudent }) : null
       );
     }
   }]);
@@ -32448,6 +32465,145 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 372 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(331);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var avgGrade = function avgGrade(tests) {
+  return Math.round(tests.map(function (test) {
+    return test.grade;
+  }).reduce(function (x, y) {
+    return x + y;
+  }) / tests.length);
+};
+
+var SingleStudent = function SingleStudent(props) {
+  console.log('ppp', props);
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h3',
+      null,
+      props.student.fullName
+    ),
+    _react2.default.createElement(
+      'h3',
+      null,
+      'Average grade: ',
+      avgGrade(props.student.tests),
+      '%'
+    ),
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'table',
+        null,
+        _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            _react2.default.createElement(
+              'th',
+              null,
+              'Subject'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Grade'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'tbody',
+          null,
+          props.student.tests.map(function (test) {
+            return _react2.default.createElement(
+              'tr',
+              { key: test.id },
+              _react2.default.createElement(
+                'td',
+                null,
+                test.subject
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                test.grade,
+                '%'
+              )
+            );
+          })
+        )
+      )
+    )
+  );
+};
+
+exports.default = SingleStudent;
+
+/***/ }),
+/* 373 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(331);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var StudentList = function StudentList(props) {
+  console.log('p', props);
+  return _react2.default.createElement(
+    'tbody',
+    null,
+    props.students.map(function (student) {
+      return _react2.default.createElement(
+        'tr',
+        { key: student.id },
+        _react2.default.createElement(
+          'td',
+          null,
+          student.fullName
+        ),
+        _react2.default.createElement(
+          'td',
+          { onClick: function onClick() {
+              return props.selectStudent(student);
+            } },
+          'Details'
+        )
+      );
+    })
+  );
+};
+
+exports.default = StudentList;
 
 /***/ })
 /******/ ]);

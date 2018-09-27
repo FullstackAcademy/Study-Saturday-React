@@ -2,55 +2,46 @@ const router = require('express').Router();
 const Test = require('../db/models/tests');
 const Student = require('../db/models/students');
 
-router.get('/passing', function(req, res, next) {
-  Test.passing()
-    .then(tests => res.json(tests))
-    .catch(next);
+router.get('/', async (req, res, next) => {
+  try {
+    const tests = await Test.findAll();
+    res.send(tests);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.get('/', function(req, res, next) {
-  Test.findAll()
-    .then(tests => res.json(tests))
-    .catch(next);
-});
-
-router.get('/:id', function(req, res, next) {
-  Test.findById(req.params.id)
-    .then(test => res.json(test))
-    .catch(next);
-});
-
-router.get('/subject/:subject', function(req, res, next) {
-  Test.findAll({
-    where: {
-      subject: req.params.subject
+router.get('/:id', async (req, res, next) => {
+  try {
+    let test = await Test.findById(req.params.id);
+    if (test) {
+      res.send(test);
+    } else {
+      res.status(404).send('Test not found');
     }
-  })
-    .then(test => res.json(test))
-    .catch(next);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.post('/student/:studentId', function(req, res, next) {
-  Student.findById(req.params.studentId)
-    .then(student => {
-      return Test.create(req.body).then(test => {
-        return test.setStudent(student);
-      });
-    })
-    .then(test => {
-      res.status(201).json(test);
-    })
-    .catch(next);
+router.post('/student/:studentId', async (req, res, next) => {
+  try {
+    let student = await Student.findById(req.params.studentId);
+    let test = await Test.create(req.body);
+    let studentTest = await test.setStudent(student);
+    res.status(201).send(studentTest);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', function(req, res, next) {
-  Test.destroy({
-    where: {
-      id: req.params.id
-    }
-  })
-    .then(() => res.sendStatus(204))
-    .catch(next);
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await Test.destroy({ where: { id: req.params.id } });
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

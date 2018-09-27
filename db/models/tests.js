@@ -7,32 +7,33 @@ const Student = require('./students');
 const Test = db.define('test', {
   subject: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   grade: {
     type: Sequelize.INTEGER,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 Test.passing = function() {
   return Test.findAll({
     where: {
       grade: {
-        [Op.gt]: 70
-      }
-    }
+        [Op.gt]: 70,
+      },
+    },
   });
 };
 
 Test.findBySubject = function(type) {
   return Test.findAll({
     where: {
-      subject: type
-    }
+      subject: type,
+    },
   });
 };
 
 Test.belongsTo(Student, { as: 'student' });
+Student.hasMany(Test);
 
 module.exports = Test;
