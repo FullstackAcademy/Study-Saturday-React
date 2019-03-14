@@ -1,4 +1,4 @@
-# Study-Saturday-Week3
+# Study-Saturday-React
 
 ## Objective: Build a React front-end for our CRUD app
 
