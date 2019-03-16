@@ -12,6 +12,7 @@ class Main extends Component {
     let { data } = await axios.get('/student');
     this.setState({ students: data });
   }
+
   render() {
     return (
       <div>
