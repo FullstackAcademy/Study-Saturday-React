@@ -12,26 +12,26 @@
   "author": "myself",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.21.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "morgan": "^1.9.0",
-    "nodemon": "^1.14.12",
-    "pg": "^7.4.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "sequelize": "^4.32.2"
+    "nodemon": "^2.0.7",
+    "pg": "^8.5.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "sequelize": "^6.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
+    "babel-loader": "^8.2.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "faker": "^4.1.0",
-    "webpack": "^3.10.0"
+    "faker": "^5.1.0",
+    "webpack": "^5.16.0"
   }
 }

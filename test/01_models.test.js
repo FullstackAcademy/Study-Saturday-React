@@ -7,12 +7,12 @@ const Test = require('../db/models/tests');
 const db = require('../db/db');
 const Promise = require('bluebird');
 
-describe('Models', function() {
-  before(function() {
+describe('Models', function () {
+  before(function () {
     return db.sync({ force: true });
   });
 
-  describe('The `Students` model', function() {
+  describe('The `Students` model', function () {
     //initial force sync to clear the db
 
     //create student BEFORE EACH test
@@ -21,24 +21,24 @@ describe('Models', function() {
     let lastName = 'Parker';
     let email = 'peterP@spidey.web';
 
-    beforeEach(function() {
+    beforeEach(function () {
       student = Student.build({
         firstName,
         lastName,
-        email
+        email,
       });
     });
 
     //remove student AFTER EACH test
     //cascade:true `Only used in conjunction with TRUNCATE. Truncates all tables that have foreign-key references to the named table, or to any tables added to the group due to CASCADE`.
     //src: http://docs.sequelizejs.com/class/lib/model.js~Model.html#static-method-truncate
-    afterEach(function() {
+    afterEach(function () {
       return Student.truncate({ cascade: true });
     });
 
     describe('attributes definition', () => {
       it('includes `firstName`, `lastName`, and `email` fields', () => {
-        return student.save().then(savedStudent => {
+        return student.save().then((savedStudent) => {
           expect(savedStudent.firstName).to.equal('Peter');
           expect(savedStudent.lastName).to.equal('Parker');
           expect(savedStudent.email).to.equal('peterP@spidey.web');
@@ -51,7 +51,7 @@ describe('Models', function() {
           () => {
             throw new Error('validation should fail when firstName is null');
           },
-          createdError => expect(createdError).to.be.an.instanceOf(Error)
+          (createdError) => expect(createdError).to.be.an.instanceOf(Error)
         );
       });
 
@@ -61,7 +61,7 @@ describe('Models', function() {
           () => {
             throw new Error('validation should fail when lastName is null');
           },
-          createdError => expect(createdError).to.be.an.instanceOf(Error)
+          (createdError) => expect(createdError).to.be.an.instanceOf(Error)
         );
       });
 
@@ -71,7 +71,7 @@ describe('Models', function() {
           () => {
             throw new Error('validation should fail when email is null');
           },
-          createdError => expect(createdError).to.be.an.instanceOf(Error)
+          (createdError) => expect(createdError).to.be.an.instanceOf(Error)
         );
       });
 
@@ -83,7 +83,7 @@ describe('Models', function() {
               'validation should fail when email is not in email form'
             );
           },
-          createdError => {
+          (createdError) => {
             expect(createdError).to.be.an.instanceOf(Error);
             expect(createdError.message).to.contain('Validation error');
           }
@@ -105,12 +105,12 @@ describe('Models', function() {
           newStudent = Student.build({
             firstName: 'charles',
             lastName: 'xavier',
-            email: 'charlie@brainy.com'
+            email: 'charlie@brainy.com',
           });
         });
 
         xit('capitalizes the first letter of the first and last name before save to the DB', () => {
-          return newStudent.save().then(savedStudent => {
+          return newStudent.save().then((savedStudent) => {
             expect(savedStudent.firstName).to.equal('Charles');
             expect(savedStudent.lastName).to.equal('Xavier');
           });
@@ -122,7 +122,7 @@ describe('Models', function() {
     describe('instance methods', () => {
       describe('initials', () => {
         xit('should return the initials of a student', () => {
-          return student.save().then(savedStudent => {
+          return student.save().then((savedStudent) => {
             expect(savedStudent.initials()).to.equal('P P');
           });
         });
@@ -130,8 +130,7 @@ describe('Models', function() {
     });
     //end of `The Students model` describe block
   });
-  describe('The `Test` model', function() {
-
+  describe('The `Test` model', function () {
     let test;
     let subject = 'Tree-climbing';
     let grade = 79;
@@ -139,20 +138,20 @@ describe('Models', function() {
     beforeEach(() => {
       test = Test.build({
         subject,
-        grade
+        grade,
       });
     });
 
     afterEach(() => {
       return Promise.all([
         Test.truncate({ cascade: true }),
-        Student.truncate({ cascade: true })
+        Student.truncate({ cascade: true }),
       ]);
     });
 
     describe('attributes definition', () => {
       xit('includes `subject` and `grade` fields', () => {
-        return test.save().then(savedTest => {
+        return test.save().then((savedTest) => {
           expect(savedTest.subject).to.equal('Tree-climbing');
           expect(savedTest.grade).to.equal(79);
         });
@@ -164,7 +163,7 @@ describe('Models', function() {
           () => {
             throw new Error('validation should fail when subject is null');
           },
-          createdError => expect(createdError).to.be.an.instanceOf(Error)
+          (createdError) => expect(createdError).to.be.an.instanceOf(Error)
         );
       });
 
@@ -174,7 +173,7 @@ describe('Models', function() {
           () => {
             throw new Error('validation should fail when grade is null');
           },
-          createdError => expect(createdError).to.be.an.instanceOf(Error)
+          (createdError) => expect(createdError).to.be.an.instanceOf(Error)
         );
       });
       //end of `attributes definition` describe block
@@ -187,13 +186,13 @@ describe('Models', function() {
           Test.create({ subject: 'Competitive Eating', grade: 92 }),
           Test.create({ subject: 'Javascript 101', grade: 98 }),
           Test.create({ subject: 'Wind Surfing', grade: 52 }),
-          Test.create({ subject: 'Outdoor Survival', grade: 90 })
+          Test.create({ subject: 'Outdoor Survival', grade: 90 }),
         ]);
       });
 
       describe('passing', () => {
         xit('should return the test instances that have grade greater than 70', () => {
-          return Test.passing().then(foundTests => {
+          return Test.passing().then((foundTests) => {
             expect(foundTests).to.be.an.instanceOf(Array);
             expect(foundTests).to.have.length(3);
           });
@@ -201,7 +200,7 @@ describe('Models', function() {
       });
       describe('findBySubject', () => {
         xit('should return all instances by given subject', () => {
-          return Test.findBySubject('Outdoor Survival').then(foundTests => {
+          return Test.findBySubject('Outdoor Survival').then((foundTests) => {
             expect(foundTests).to.be.an.instanceOf(Array);
             expect(foundTests).to.have.length(2);
           });
@@ -214,11 +213,11 @@ describe('Models', function() {
         const newStudent = Student.create({
           firstName: 'Pepper',
           lastName: 'Potts',
-          email: 'pp@salsa.com'
+          email: 'pp@salsa.com',
         });
         const newTest = Test.create({
           subject: 'sword-sharpening',
-          grade: 100
+          grade: 100,
         });
         return Promise.all([newStudent, newTest])
           .spread((createdStudent, createdTest) => {
@@ -227,10 +226,10 @@ describe('Models', function() {
           .then(() => {
             return Test.findOne({
               where: { subject: 'sword-sharpening' },
-              include: { model: Student, as: 'student' }
+              include: { model: Student, as: 'student' },
             });
           })
-          .then(foundTest => {
+          .then((foundTest) => {
             expect(foundTest).to.exist; //eslint-disable-line no-unused-expressions
             expect(foundTest.student.fullName).to.equal('Pepper Potts');
           });
