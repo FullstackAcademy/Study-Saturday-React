@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let test = await Test.findById(req.params.id);
+    let test = await Test.findByPk(req.params.id);
     if (test) {
       res.send(test);
     } else {

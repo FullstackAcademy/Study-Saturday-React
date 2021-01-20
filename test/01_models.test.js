@@ -5,7 +5,6 @@ const expect = chai.expect;
 const Student = require('../db/models/students');
 const Test = require('../db/models/tests');
 const db = require('../db/db');
-const Promise = require('bluebird');
 
 describe('Models', function () {
   before(function () {

@@ -6,7 +6,6 @@ const app = require('../app');
 const agent = request.agent(app);
 
 const db = require('../db/db');
-const Promise = require('bluebird');
 const Student = require('../db/models/students');
 const Test = require('../db/models/tests');
 describe('Routes', () => {
