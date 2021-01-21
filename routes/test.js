@@ -2,52 +2,52 @@ const router = require('express').Router();
 const Test = require('../db/models/tests');
 const Student = require('../db/models/students');
 
-router.get('/passing', function(req, res, next) {
+router.get('/passing', function (req, res, next) {
   Test.passing()
-    .then(tests => res.json(tests))
+    .then((tests) => res.json(tests))
     .catch(next);
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   Test.findAll()
-    .then(tests => res.json(tests))
+    .then((tests) => res.json(tests))
     .catch(next);
 });
 
-router.get('/:id', function(req, res, next) {
-  Test.findById(req.params.id)
-    .then(test => res.json(test))
+router.get('/:id', function (req, res, next) {
+  Test.findByPk(req.params.id)
+    .then((test) => res.json(test))
     .catch(next);
 });
 
-router.get('/subject/:subject', function(req, res, next) {
+router.get('/subject/:subject', function (req, res, next) {
   Test.findAll({
     where: {
-      subject: req.params.subject
-    }
+      subject: req.params.subject,
+    },
   })
-    .then(test => res.json(test))
+    .then((test) => res.json(test))
     .catch(next);
 });
 
-router.post('/student/:studentId', function(req, res, next) {
-  Student.findById(req.params.studentId)
-    .then(student => {
-      return Test.create(req.body).then(test => {
+router.post('/student/:studentId', function (req, res, next) {
+  Student.findByPk(req.params.studentId)
+    .then((student) => {
+      return Test.create(req.body).then((test) => {
         return test.setStudent(student);
       });
     })
-    .then(test => {
+    .then((test) => {
       res.status(201).json(test);
     })
     .catch(next);
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', function (req, res, next) {
   Test.destroy({
     where: {
-      id: req.params.id
-    }
+      id: req.params.id,
+    },
   })
     .then(() => res.sendStatus(204))
     .catch(next);

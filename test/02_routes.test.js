@@ -116,7 +116,7 @@ describe('Routes', () => {
           .delete(`/student/${charlie.id}`)
           .expect(204)
           .expect(() => {
-            return Student.findById(charlie.id).then((res) =>
+            return Student.findByPk(charlie.id).then((res) =>
               expect(res).to.equal(null)
             );
           });
@@ -240,7 +240,7 @@ describe('Routes', () => {
           .delete(`/test/${crayTest.id}`)
           .expect(204)
           .expect(() => {
-            return Test.findById(crayTest.id).then((res) => {
+            return Test.findByPk(crayTest.id).then((res) => {
               expect(res).to.equal(null);
             });
           });
