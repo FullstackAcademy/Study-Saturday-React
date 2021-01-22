@@ -1,46 +1,61 @@
 const router = require('express').Router();
 const Student = require('../db/models/students');
 
-router.get('/:studentId', function (req, res, next) {
-  Student.findByPk(req.params.studentId)
-    .then((student) => {
-      if (!student) return res.sendStatus(404);
-      res.json(student);
-    })
-    .catch(next);
+router.get('/:studentId', async (req, res, next) => {
+  try {
+    const student = await Student.findByPk(req.params.studentId);
+    if (!student) return res.sendStatus(404);
+    res.json(student);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/', function (req, res, next) {
-  Student.findAll().then((students) => res.json(students));
+router.get('/', async (req, res, next) => {
+  try {
+    const students = await Student.findAll();
+    res.json(students);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post('/', function (req, res, next) {
-  Student.create(req.body)
-    .then((student) => res.json(student))
-    .catch(next);
+router.post('/', async (req, res, next) => {
+  try {
+    const student = await Student.create(req.body);
+    res.json(student);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.put('/:id', function (req, res, next) {
-  Student.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-    returning: true,
-  })
-    .then((test) => res.status(201).json(test[1][0]))
-    .catch(next);
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { firstName, lastName, email } = req.body;
+    const student = await Student.findByPk(req.params.id);
+    const updatedStudent = await student.update({
+      firstName,
+      lastName,
+      email,
+    });
+    res.json(updatedStudent);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.delete('/:id', function (req, res, next) {
-  Student.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then(() => {
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const student = await Student.findByPk(req.params.id);
+    if (student) {
+      await student.destroy();
       res.sendStatus(204);
-    })
-    .catch(next);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
