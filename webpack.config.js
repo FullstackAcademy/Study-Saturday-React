@@ -14,7 +14,7 @@ module.exports = {
     extensions: ['.jsx', '.js', '.json'],
   },
   module: {
-    loaders: [
+    rules: [
       {
         // Use babel for files that end in js or jsx.
         test: /jsx?$/,
