@@ -2,55 +2,75 @@ const router = require('express').Router();
 const Test = require('../db/models/tests');
 const Student = require('../db/models/students');
 
-router.get('/passing', function (req, res, next) {
-  Test.passing()
-    .then((tests) => res.json(tests))
-    .catch(next);
+// GET /api/tests
+router.get('/', async (req, res, next) => {
+  try {
+    const tests = await Test.findAll();
+    res.json(tests);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/', function (req, res, next) {
-  Test.findAll()
-    .then((tests) => res.json(tests))
-    .catch(next);
+// GET /api/tests/passing
+router.get('/passing', async (req, res, next) => {
+  try {
+    const passingTests = await Test.getPassing();
+    res.json(passingTests);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/:id', function (req, res, next) {
-  Test.findByPk(req.params.id)
-    .then((test) => res.json(test))
-    .catch(next);
+// GET /api/tests/subjects/:subject
+router.get('/subjects/:subject', async (req, res, next) => {
+  try {
+    const testsBySubject = await Test.findAll({
+      where: {
+        subject: req.params.subject,
+      },
+    });
+    res.json(testsBySubject);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/subject/:subject', function (req, res, next) {
-  Test.findAll({
-    where: {
-      subject: req.params.subject,
-    },
-  })
-    .then((test) => res.json(test))
-    .catch(next);
+// GET /api/tests/:id
+router.get('/:id', async (req, res, next) => {
+  try {
+    const test = await Test.findByPk(req.params.id);
+    res.json(test);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post('/student/:studentId', function (req, res, next) {
-  Student.findByPk(req.params.studentId)
-    .then((student) => {
-      return Test.create(req.body).then((test) => {
-        return test.setStudent(student);
-      });
-    })
-    .then((test) => {
-      res.status(201).json(test);
-    })
-    .catch(next);
+// POST /api/tests/students/:studentId
+router.post('/students/:studentId', async (req, res, next) => {
+  try {
+    const student = await Student.findByPk(req.params.studentId);
+    let test = await Test.create(req.body);
+    test = await test.setStudent(student);
+    res.status(201).json(test);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.delete('/:id', function (req, res, next) {
-  Test.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then(() => res.sendStatus(204))
-    .catch(next);
+// DELETE /api/tests/:id
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const test = await Test.findByPk(req.params.id);
+    if (test) {
+      await test.destroy();
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
