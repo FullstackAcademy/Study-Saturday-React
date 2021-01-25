@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let test = await Test.findById(req.params.id);
+    let test = await Test.findByPk(req.params.id);
     if (test) {
       res.send(test);
     } else {
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/student/:studentId', async (req, res, next) => {
   try {
-    let student = await Student.findById(req.params.studentId);
+    let student = await Student.findByPk(req.params.studentId);
     let test = await Test.create(req.body);
     let studentTest = await test.setStudent(student);
     res.status(201).send(studentTest);
