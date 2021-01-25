@@ -26,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/student/:studentId', async (req, res, next) => {
   try {
-    let student = await StudentPk(req.params.studentId);
+    let student = await Student.findByPk(req.params.studentId);
     let test = await Test.create(req.body);
     let studentTest = await test.setStudent(student);
     res.status(201).send(studentTest);
