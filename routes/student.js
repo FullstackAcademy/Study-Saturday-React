@@ -4,7 +4,6 @@ const Student = require('../db/models/students');
 router.get('/', async (req, res, next) => {
   try {
     const students = await Student.findAll({ include: { all: true } });
-    console.log(students);
     res.send(students);
   } catch (error) {
     next(error);
