@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
 package-lock.json
-bundle.js
-bundle.js.map
-bundle.js.LICENSE.txt
+public/bundle.js
+public/bundle.js.map
