@@ -1,8 +1,10 @@
-'use strict';
+'use strict'
+const path = require('path')
+
 
 module.exports = {
   // Compile ./browser/index.js
-  entry: ['babel-polyfill', './browser/index.js'],
+  entry: './browser/index.js',
   output: {
     path: __dirname,
     //write the output to ./public/bundle.js
@@ -18,9 +20,15 @@ module.exports = {
       {
         // Use babel for files that end in js or jsx.
         test: /jsx?$/,
-        exclude: /(node_modules)/,
-        loader: 'babel-loader',
+        exclude: [path.resolve(__dirname, 'node_modules')],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-transform-runtime'],
+          },
+        },
       },
     ],
   },
-};
+}
