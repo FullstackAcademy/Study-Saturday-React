@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Test = require('../db/models/tests');
 const Student = require('../db/models/students');
 
-// GET /api/tests
+// GET /test
 router.get('/', async (req, res, next) => {
   try {
     const tests = await Test.findAll();
@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET /api/tests/passing
+// GET /test/passing
 router.get('/passing', async (req, res, next) => {
   try {
     const passingTests = await Test.getPassing();
@@ -22,7 +22,7 @@ router.get('/passing', async (req, res, next) => {
   }
 });
 
-// GET /api/tests/subjects/:subject
+// GET /test/subjects/:subject
 router.get('/subjects/:subject', async (req, res, next) => {
   try {
     const testsBySubject = await Test.findAll({
@@ -36,7 +36,7 @@ router.get('/subjects/:subject', async (req, res, next) => {
   }
 });
 
-// GET /api/tests/:id
+// GET /test/:id
 router.get('/:id', async (req, res, next) => {
   try {
     const test = await Test.findByPk(req.params.id);
@@ -46,7 +46,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// POST /api/tests/students/:studentId
+// POST /test/students/:studentId
 router.post('/students/:studentId', async (req, res, next) => {
   try {
     const student = await Student.findByPk(req.params.studentId);
@@ -58,7 +58,7 @@ router.post('/students/:studentId', async (req, res, next) => {
   }
 });
 
-// DELETE /api/tests/:id
+// DELETE /test/:id
 router.delete('/:id', async (req, res, next) => {
   try {
     const test = await Test.findByPk(req.params.id);
