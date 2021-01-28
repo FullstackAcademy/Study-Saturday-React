@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Student = require('../db/models/students');
 const Test = require('../db/models/tests');
 
+// GET /student/:studentId
 router.get('/:studentId', async (req, res, next) => {
   try {
     const student = await Student.findByPk(req.params.studentId);
@@ -12,10 +13,11 @@ router.get('/:studentId', async (req, res, next) => {
   }
 });
 
+// GET /student/
 router.get('/', async (req, res, next) => {
   try {
     const students = await Student.findAll({
-      include: Test
+      include: Test,
     });
     res.json(students);
   } catch (error) {
@@ -23,6 +25,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// POST /student/
 router.post('/', async (req, res, next) => {
   try {
     const student = await Student.create(req.body);
@@ -32,6 +35,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// PUT /student/:id
 router.put('/:id', async (req, res, next) => {
   try {
     const { firstName, lastName, email } = req.body;
@@ -47,6 +51,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
+// DELETE /student/:id
 router.delete('/:id', async (req, res, next) => {
   try {
     const student = await Student.findByPk(req.params.id);
