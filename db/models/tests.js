@@ -15,7 +15,7 @@ const Test = db.define('test', {
   },
 });
 
-Test.passing = function() {
+Test.passing = function () {
   return Test.findAll({
     where: {
       grade: {
@@ -25,7 +25,7 @@ Test.passing = function() {
   });
 };
 
-Test.findBySubject = function(type) {
+Test.findBySubject = function (type) {
   return Test.findAll({
     where: {
       subject: type,
@@ -33,7 +33,7 @@ Test.findBySubject = function(type) {
   });
 };
 
-Test.belongsTo(Student, { as: 'student' });
+Test.belongsTo(Student);
 Student.hasMany(Test);
 
 module.exports = Test;
