@@ -1,5 +1,6 @@
 import React from 'react';
 
+//we get an averageGrade
 const avgGrade = tests => {
     return (
         Math.round(
