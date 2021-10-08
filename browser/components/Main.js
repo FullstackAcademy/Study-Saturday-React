@@ -5,17 +5,22 @@ import StudentList from './StudentList.js';
 import SingleStudent from './SingleStudent.js';
 
 export default class Main extends Component {
+  //that's how we pass our props in class components: DON'T FORGET TO USE SUPER!
   constructor(props) {
     super(props);
+    //state is somethign that is going to make the whole render block
+    //to 'rerender' every time we update info in it
     this.state = {
       students: [],
       selectedStudent: {},
     };
 
+    //we need to manually bind this method to the value of this
     this.selectStudent = this.selectStudent.bind(this);
   }
 
   componentDidMount() {
+    //componentDidMount is going to run once at the beginning
     this.getStudents();
   }
 
@@ -30,6 +35,9 @@ export default class Main extends Component {
   }
 
   selectStudent(student) {
+    //in React we can jsut ask it nicely to change our state by using .setState
+    //we CAAAN'T just overwrite our previous state like that
+    //this.state.selectedStudent = student;
     return this.setState({
       selectedStudent: student,
     });
@@ -46,11 +54,18 @@ export default class Main extends Component {
               <th>Tests</th>
             </tr>
           </thead>
+          {/* we pass students from our state and selecStudent method to
+          the StudentList component, so we can access both of them in StudentList
+          component's props */}
           <StudentList
             students={this.state.students}
             selectStudent={this.selectStudent}
           />
         </table>
+        {/* we check if selectedStudent exists, aka if we clicked on any
+        of the students. if it does, then it's going to be rendered on our page
+        since our state has changed.
+        we pass our selectedStudent object down to the SingleStudent component.*/}
         {this.state.selectedStudent.id ? (
           <SingleStudent student={this.state.selectedStudent} />
         ) : null}
