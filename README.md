@@ -1,5 +1,7 @@
 # Study-Saturday-React
 
+## Lecture Slides: [Study-Saturday-React](https://docs.google.com/presentation/d/1gYUcgO7BPUFEOJKL40jJFhfoYpynmTm7mxbSWlJTlXk/edit?usp=sharing)
+
 ## Objective: Build a React front-end for our CRUD app
 
 ### Details
