@@ -14,10 +14,7 @@ export default function Main(props){
     }
   }
 
-  useEffect(()=> {
-      getStudents()
-    }, [students]
-  )
+  useEffect(()=> getStudents(), [])
 
   return (
     <div>
